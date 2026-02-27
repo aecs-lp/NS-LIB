@@ -12,6 +12,44 @@
 	<#assign currencySymbol = "$">
 </#if>
 
+<#-- Formats address -->
+<#function formatAddress address>
+  <#assign output = "">
+  <#-- Addressee -->
+  <#if address.addressee?has_content>
+    <#assign output += "<strong>" + address.addressee + "</strong><br/>">
+  </#if>
+  <#-- Address lines -->
+  <#if address.addr1?has_content>
+    <#assign output += address.addr1 + "<br/>">
+  </#if>
+  <#if address.addr2?has_content>
+    <#assign output += address.addr2 + "<br/>">
+  </#if>
+  <#-- City / State / Zip -->
+  <#assign cityLine = "">
+  <#if address.city?has_content>
+    <#assign cityLine += address.city>
+  </#if>
+  <#if address.state?has_content>
+    <#if cityLine?has_content>
+      <#assign cityLine += ", ">
+    </#if>
+    <#assign cityLine += address.state>
+  </#if>
+  <#if address.zip?has_content>
+    <#assign cityLine += " " + address.zip>
+  </#if>
+  <#if cityLine?has_content>
+    <#assign output += cityLine + "<br/>">
+  </#if>
+  <#-- Country -->
+  <#if address.country?has_content>
+    <#assign output += address.country + "<br/>">
+  </#if>
+  <#return output>
+</#function>
+
 <#-- Computation of footer height -->
 <#assign footerHeight = 78>
 <#if subsidiary.custrecord_alf_share_capital?length != 0 || subsidiary.custrecord_alf_sic_code?length != 0>
